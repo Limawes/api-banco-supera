@@ -3,6 +3,7 @@ package br.com.banco.service;
 import br.com.banco.model.Transferencia;
 import br.com.banco.repository.TransferenciaRepository;
 import br.com.banco.request.TransferenciaRequest;
+import br.com.banco.response.TransferenciaResponse;
 import br.com.banco.util.GeneralUtils;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -29,14 +30,14 @@ public class TransferenciaService {
         return transferenciaRepository.findByDataTransferenciaBetween(dataInicio, dataFim);
     }
 
-    public List<Transferencia> findByOperador(TransferenciaRequest transferencia) {
+    public List<Transferencia> findByOperador(TransferenciaResponse transferenciaResponse) {
         return transferenciaRepository.findAll((Specification<Transferencia>)
                 (root, query, criteriaBuilder) -> {
                     List<Predicate> predicates = new ArrayList<>();
-                    if (!GeneralUtils.isNullOrEmpty(transferencia.getNomeOperadorTransacao())){
+                    if (!GeneralUtils.isNullOrEmpty(transferenciaResponse.getNomeOperadorTransacao())){
                         predicates.add(criteriaBuilder.and(criteriaBuilder.like(
                                 criteriaBuilder.upper(root.get("nomeOperadorTransacao")), "%" +
-                                        transferencia.getNomeOperadorTransacao().toUpperCase() + "%")));
+                                        transferenciaResponse.getNomeOperadorTransacao().toUpperCase() + "%")));
                     }
                     return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
                 });

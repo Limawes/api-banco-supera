@@ -2,6 +2,7 @@ package br.com.banco.controller;
 
 import br.com.banco.model.Transferencia;
 import br.com.banco.request.TransferenciaRequest;
+import br.com.banco.response.TransferenciaResponse;
 import br.com.banco.service.TransferenciaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,8 +42,8 @@ public class TransferenciaController {
 
     @PostMapping("/operador")
     @ResponseStatus(HttpStatus.OK)
-    public List<Transferencia> findByOperador(@RequestBody TransferenciaRequest transferencia) {
+    public List<Transferencia> findByOperador(@RequestBody TransferenciaResponse transferenciaResponse) {
         log.info("get transfers by operator");
-        return transferenciaService.findByOperador(transferencia);
+        return transferenciaService.findByOperador(transferenciaResponse);
     }
 }
