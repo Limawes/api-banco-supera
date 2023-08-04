@@ -1,6 +1,8 @@
 package br.com.banco.service;
 
+import br.com.banco.model.Conta;
 import br.com.banco.model.Transferencia;
+import br.com.banco.repository.ContaRepository;
 import br.com.banco.repository.TransferenciaRepository;
 import br.com.banco.request.TransferenciaRequest;
 import br.com.banco.response.TransferenciaResponse;
@@ -17,10 +19,13 @@ import java.util.List;
 public class TransferenciaService {
 
     private final TransferenciaRepository transferenciaRepository;
+    private final ContaRepository contaRepository;
 
-    public TransferenciaService(TransferenciaRepository transferenciaRepository) {
+  public TransferenciaService(TransferenciaRepository transferenciaRepository,
+                              ContaRepository contaRepository) {
         this.transferenciaRepository = transferenciaRepository;
-    }
+    this.contaRepository = contaRepository;
+  }
 
     public List<Transferencia> findAll() {
         return transferenciaRepository.findAll();
@@ -42,5 +47,10 @@ public class TransferenciaService {
                     return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
                 });
     }
+
+    public List<Conta> findByContaId(Long id){
+      return contaRepository.findByContaId(id);
+    }
+    
 
 }
