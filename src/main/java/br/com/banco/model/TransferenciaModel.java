@@ -1,10 +1,5 @@
 package br.com.banco.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -22,7 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Table(name = "transferencia")
-public class Transferencia {
+public class TransferenciaModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,13 +39,5 @@ public class Transferencia {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "conta_id", referencedColumnName = "id_conta")
-    private Conta conta_id;
-
-    public String getNomeOperadorTransacao() {
-        return nomeOperadorTransacao;
-    }
-
-    public void setNomeOperadorTransacao(String nomeOperadorTransacao) {
-        this.nomeOperadorTransacao = nomeOperadorTransacao;
-    }
+    private ContaModel conta_id;
 }
