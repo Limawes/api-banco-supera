@@ -34,17 +34,8 @@ public class TransferenciaService {
         return transferenciaRepository.findByDataTransferenciaBetween(dataInicio, dataFim);
     }
 
-    public List<TransferenciaModel> findByOperador(TransferenciaResponse transferenciaResponse) {
-        return transferenciaRepository.findAll((Specification<TransferenciaModel>)
-                (root, query, criteriaBuilder) -> {
-                    List<Predicate> predicates = new ArrayList<>();
-                    if (!GeneralUtils.isNullOrEmpty(transferenciaResponse.getNomeOperadorTransacao())){
-                        predicates.add(criteriaBuilder.and(criteriaBuilder.like(
-                                criteriaBuilder.upper(root.get("nomeOperadorTransacao")), "%" +
-                                        transferenciaResponse.getNomeOperadorTransacao().toUpperCase() + "%")));
-                    }
-                    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-                });
+    public List<TransferenciaModel> findByNomeOperador(String operador) {
+      return transferenciaRepository.findByNomeOperadorTransacao(operador);
     }
 
     public List<ContaModel> findByContaId(Long id){

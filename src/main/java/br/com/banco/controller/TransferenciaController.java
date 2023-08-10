@@ -39,16 +39,16 @@ public class TransferenciaController {
         return transferenciaService.findByDataTransferenciaBetween(inicio, fim);
     }
 
-    @PostMapping("/operador")
+    @GetMapping("/operador")
     @ResponseStatus(HttpStatus.OK)
-    public List<TransferenciaModel> findByOperador(@RequestBody TransferenciaResponse transferenciaResponse) {
-        log.info("get transfers by operator");
-        return transferenciaService.findByOperador(transferenciaResponse);
+    public List<TransferenciaModel> findByNomeOperador(@RequestParam String op) {
+        return transferenciaService.findByNomeOperador(op);
     }
 
     @GetMapping("/id_conta/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<TransferenciaModel> findByIdConta(@PathVariable("id") Long id) {
+        log.info("account : {}", id);
         return transferenciaService.findByIdConta(id);
     }
 }

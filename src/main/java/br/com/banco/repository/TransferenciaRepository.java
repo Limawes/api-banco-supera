@@ -20,9 +20,8 @@ public interface TransferenciaRepository extends JpaRepository<TransferenciaMode
     @Query(value = "from TransferenciaModel where data_transferencia between :inicio and :fim")
     List<TransferenciaModel> findByDataTransferenciaBetween(Date inicio, Date fim);
 
+    @Query(value = "select * from transferencia where nome_operador_transacao = :operador", nativeQuery = true)
     List<TransferenciaModel> findByNomeOperadorTransacao(String operador);
-
-    List<TransferenciaModel> findAll(Specification<TransferenciaModel> nomeOperadorTransacao);
 
     @Query(value = "select * from transferencia where conta_id = :id", nativeQuery = true)
     List<TransferenciaModel> findByIdConta(Long id);
