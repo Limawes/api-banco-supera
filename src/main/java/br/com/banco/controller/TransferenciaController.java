@@ -1,7 +1,6 @@
 package br.com.banco.controller;
 
-import br.com.banco.model.Transferencia;
-import br.com.banco.request.TransferenciaRequest;
+import br.com.banco.model.TransferenciaModel;
 import br.com.banco.response.TransferenciaResponse;
 import br.com.banco.service.TransferenciaService;
 import org.slf4j.Logger;
@@ -27,23 +26,29 @@ public class TransferenciaController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Transferencia> findAll(){
+    public List<TransferenciaModel> findAll(){
         log.info("Get all transfers");
         return transferenciaService.findAll();
     }
 
     @GetMapping("/inicio/{inicio}/fim/{fim}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Transferencia> dataTransferenciaBetween(@PathVariable("inicio") @DateTimeFormat(pattern = "yyyy-MM-dd") Date inicio,
-                                                        @PathVariable("fim") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fim){
+    public List<TransferenciaModel> dataTransferenciaBetween(@PathVariable("inicio") @DateTimeFormat(pattern = "yyyy-MM-dd") Date inicio,
+                                                             @PathVariable("fim") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fim){
         log.info("Get transfers by start date and end date");
         return transferenciaService.findByDataTransferenciaBetween(inicio, fim);
     }
 
     @PostMapping("/operador")
     @ResponseStatus(HttpStatus.OK)
-    public List<Transferencia> findByOperador(@RequestBody TransferenciaResponse transferenciaResponse) {
+    public List<TransferenciaModel> findByOperador(@RequestBody TransferenciaResponse transferenciaResponse) {
         log.info("get transfers by operator");
         return transferenciaService.findByOperador(transferenciaResponse);
+    }
+
+    @GetMapping("/id_conta/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TransferenciaModel> findByIdConta(@PathVariable("id") Long id) {
+        return transferenciaService.findByIdConta(id);
     }
 }

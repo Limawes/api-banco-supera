@@ -1,10 +1,9 @@
 package br.com.banco.service;
 
-import br.com.banco.model.Conta;
-import br.com.banco.model.Transferencia;
+import br.com.banco.model.ContaModel;
+import br.com.banco.model.TransferenciaModel;
 import br.com.banco.repository.ContaRepository;
 import br.com.banco.repository.TransferenciaRepository;
-import br.com.banco.request.TransferenciaRequest;
 import br.com.banco.response.TransferenciaResponse;
 import br.com.banco.util.GeneralUtils;
 import org.springframework.data.jpa.domain.Specification;
@@ -27,16 +26,16 @@ public class TransferenciaService {
     this.contaRepository = contaRepository;
   }
 
-    public List<Transferencia> findAll() {
+    public List<TransferenciaModel> findAll() {
         return transferenciaRepository.findAll();
     }
 
-    public List<Transferencia> findByDataTransferenciaBetween(Date dataInicio, Date dataFim) {
+    public List<TransferenciaModel> findByDataTransferenciaBetween(Date dataInicio, Date dataFim) {
         return transferenciaRepository.findByDataTransferenciaBetween(dataInicio, dataFim);
     }
 
-    public List<Transferencia> findByOperador(TransferenciaResponse transferenciaResponse) {
-        return transferenciaRepository.findAll((Specification<Transferencia>)
+    public List<TransferenciaModel> findByOperador(TransferenciaResponse transferenciaResponse) {
+        return transferenciaRepository.findAll((Specification<TransferenciaModel>)
                 (root, query, criteriaBuilder) -> {
                     List<Predicate> predicates = new ArrayList<>();
                     if (!GeneralUtils.isNullOrEmpty(transferenciaResponse.getNomeOperadorTransacao())){
@@ -48,9 +47,12 @@ public class TransferenciaService {
                 });
     }
 
-    public List<Conta> findByContaId(Long id){
+    public List<ContaModel> findByContaId(Long id){
       return contaRepository.findByContaId(id);
     }
-    
+
+    public List<TransferenciaModel> findByIdConta(Long id) {
+      return transferenciaRepository.findByIdConta(id);
+    }
 
 }

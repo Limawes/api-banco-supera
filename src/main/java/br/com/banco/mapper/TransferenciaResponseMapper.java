@@ -1,6 +1,6 @@
 package br.com.banco.mapper;
 
-import br.com.banco.model.Transferencia;
+import br.com.banco.model.TransferenciaModel;
 import br.com.banco.response.TransferenciaResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -9,5 +9,5 @@ import org.mapstruct.factory.Mappers;
 public interface TransferenciaResponseMapper {
     TransferenciaResponseMapper INSTANCE = Mappers.getMapper(TransferenciaResponseMapper.class);
 
-    TransferenciaResponse modelToResponse(Transferencia model);
+    TransferenciaResponse modelToResponse(TransferenciaModel model);
 }

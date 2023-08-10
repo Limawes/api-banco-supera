@@ -1,6 +1,6 @@
 package br.com.banco.controller;
 
-import br.com.banco.model.Conta;
+import br.com.banco.model.ContaModel;
 import br.com.banco.service.TransferenciaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ public class ContaController {
 
   @GetMapping("/id/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public List<Conta> findByContaId(@PathVariable("id") Long id) {
+  public List<ContaModel> findByContaId(@PathVariable("id") Long id) {
     log.info("login by conta: {}", id);
     return transferenciaService.findByContaId(id);
   }
