@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/transferencias")
+@RequestMapping("/api/conta/{contaId}/transferencias")
 public class TransferenciaController {
 
     private final TransferenciaService transferenciaService;
@@ -26,29 +27,44 @@ public class TransferenciaController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<TransferenciaModel> findAll(){
+    public List<TransferenciaModel> findByIdConta(@PathVariable("contaId") Long contaId){
         log.info("Get all transfers");
-        return transferenciaService.findAll();
+        return transferenciaService.findByIdConta(contaId);
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<TransferenciaModel> findById(@PathVariable("contaId") Long contaId,
+                                                 @PathVariable("id") Long id){
+        log.info("Get all transfers");
+        return transferenciaService.findByIdTransferencias(contaId, id);
     }
 
     @GetMapping("/inicio/{inicio}/fim/{fim}")
     @ResponseStatus(HttpStatus.OK)
-    public List<TransferenciaModel> dataTransferenciaBetween(@PathVariable("inicio") @DateTimeFormat(pattern = "yyyy-MM-dd") Date inicio,
+    public List<TransferenciaModel> dataTransferenciaBetween(@PathVariable("contaId") Long contaId,
+                                                             @PathVariable("inicio") @DateTimeFormat(pattern = "yyyy-MM-dd") Date inicio,
                                                              @PathVariable("fim") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fim){
         log.info("Get transfers by start date and end date");
-        return transferenciaService.findByDataTransferenciaBetween(inicio, fim);
+        return transferenciaService.findByDataTransferenciaBetween(inicio, fim, contaId);
     }
 
     @GetMapping("/operador")
     @ResponseStatus(HttpStatus.OK)
-    public List<TransferenciaModel> findByNomeOperador(@RequestParam String op) {
-        return transferenciaService.findByNomeOperador(op);
+    public List<TransferenciaModel> findByNomeOperador(@PathVariable("contaId") Long contaId,
+                                                       @RequestParam String op) {
+        return transferenciaService.findByNomeOperador(op, contaId);
     }
 
-    @GetMapping("/id_conta/{id}")
+    @GetMapping("/{id}/op/{op}/{inicio}/{fim}")
     @ResponseStatus(HttpStatus.OK)
-    public List<TransferenciaModel> findByIdConta(@PathVariable("id") Long id) {
-        log.info("account : {}", id);
-        return transferenciaService.findByIdConta(id);
+    public List<TransferenciaModel> findByAllFilters (@PathVariable("contaId") Long contaId,
+                                                      @PathVariable("id") Long id,
+                                                      @PathVariable("op") String op,
+                                                      @PathVariable("inicio") @DateTimeFormat(pattern = "yyyy-MM-dd") Date inicio,
+                                                      @PathVariable("fim") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fim) {
+        log.info("Getting all by all filters");
+        return transferenciaService.findByAllFilters(contaId, id, op, inicio, fim);
     }
+
 }

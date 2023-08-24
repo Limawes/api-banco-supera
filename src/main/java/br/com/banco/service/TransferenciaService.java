@@ -13,37 +13,39 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TransferenciaService {
 
     private final TransferenciaRepository transferenciaRepository;
-    private final ContaRepository contaRepository;
 
-  public TransferenciaService(TransferenciaRepository transferenciaRepository,
-                              ContaRepository contaRepository) {
+  public TransferenciaService(TransferenciaRepository transferenciaRepository) {
         this.transferenciaRepository = transferenciaRepository;
-    this.contaRepository = contaRepository;
   }
 
     public List<TransferenciaModel> findAll() {
         return transferenciaRepository.findAll();
     }
 
-    public List<TransferenciaModel> findByDataTransferenciaBetween(Date dataInicio, Date dataFim) {
-        return transferenciaRepository.findByDataTransferenciaBetween(dataInicio, dataFim);
+    public List<TransferenciaModel> findByDataTransferenciaBetween(Date dataInicio, Date dataFim, Long contaId) {
+        return transferenciaRepository.findByDataTransferenciaBetween(dataInicio, dataFim, contaId);
     }
 
-    public List<TransferenciaModel> findByNomeOperador(String operador) {
-      return transferenciaRepository.findByNomeOperadorTransacao(operador);
+    public List<TransferenciaModel> findByNomeOperador(String operador, Long contaId) {
+      return transferenciaRepository.findByNomeOperadorTransacao(operador, contaId);
     }
 
-    public List<ContaModel> findByContaId(Long id){
-      return contaRepository.findByContaId(id);
-    }
+   public Optional<TransferenciaModel> findByIdTransferencias(Long id, Long contaId){
+    return transferenciaRepository.findByIdTransferencias(id, contaId);
+   }
 
     public List<TransferenciaModel> findByIdConta(Long id) {
       return transferenciaRepository.findByIdConta(id);
     }
+
+  public List<TransferenciaModel> findByAllFilters(Long contaId, Long id, String operador, Date inicio, Date fim){
+    return transferenciaRepository.findByAllFilters(contaId, id, operador, inicio, fim);
+  }
 
 }
